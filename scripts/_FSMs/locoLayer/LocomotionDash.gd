@@ -30,7 +30,7 @@ func physics_update(_delta: float) -> void:
 	
 	_duration -= _delta
 	if _duration <= 0:
-		transition_requested.emit(self, "LocomotionAir")
+		transition_requested.emit(self, LocomotionAir)
 	
 func can_interrupt(_delta: float) -> bool:
 	return actor_ref.request_to_dash and can_activate()

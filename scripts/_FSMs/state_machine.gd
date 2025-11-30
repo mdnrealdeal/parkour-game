@@ -7,7 +7,7 @@ extends Node
 
 #region Internal variables
 var current_state: State
-var states: Dictionary[String, State] = {}
+var states: Dictionary[Script, State] = {}
 var interrupt_states: Array[State] = []
 #endregion
 
@@ -19,7 +19,7 @@ func init(actor: Actor) -> void:
 	
 	for child in get_children():
 		if child is State:
-			states[child.name.to_lower()] = child
+			states[child.get_script()] = child
 			child.actor_ref = actor
 			child.transition_requested.connect(on_transition_requested)
 			
@@ -31,17 +31,17 @@ func init(actor: Actor) -> void:
 		current_state = initial_state
 		
 
-func on_transition_requested(from_state: State, to_state_string: String) -> void:
+func on_transition_requested(from_state: State, to_state_class: Script) -> void:
 	if from_state != current_state:
 		push_warning("FSM Warning: State (" + from_state.name + ") 
 			requested transition without being current valid state 
 			(" + current_state.name if current_state else "No State" + "). Transition denied.")
 		return
 	
-	var new_state: State = states.get(to_state_string.to_lower())
+	var new_state: State = states.get(to_state_class)
 	
 	if not new_state:
-		push_warning("FSM Warning: State transition target '" + to_state_string + "' not found in dictionary.")
+		push_warning("FSM Warning: State transition target '" + str(to_state_class) + "' not found in dictionary.")
 		print(states)
 		return
 	

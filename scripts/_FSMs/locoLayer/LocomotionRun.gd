@@ -3,25 +3,27 @@ extends State
 
 #region Internal variables
 const STRAFE_RUN_DECAY: float = 2.0
+const SPRINT_STRAFE_THRESHOLD: float = 0.5
 #endregion
 
 func physics_update(delta: float) -> void:
 	# increment time before sprinting, as long as player is forward
-	if actor_ref.input_dir.y < -0.7:
+	if actor_ref.input_dir.y < -SPRINT_STRAFE_THRESHOLD:
 		actor_ref.move_stats.run_time += delta
 	else:
 		actor_ref.move_stats.run_time -= delta * STRAFE_RUN_DECAY
 	
 	if not actor_ref.is_on_floor():
-		transition_requested.emit(self, "LocomotionAir")
+		transition_requested.emit(self, LocomotionAir)
+		return
 		
 	if actor_ref.input_dir.length() == 0:
-		transition_requested.emit(self, "LocomotionIdle")
+		transition_requested.emit(self, LocomotionIdle)
 		return
 
 	if actor_ref.request_to_jump:
 		actor_ref.velocity.y = actor_ref.move_stats.jump_force
-		transition_requested.emit(self, "LocomotionAir")
+		transition_requested.emit(self, LocomotionAir)
 		return
 	
 	var direction: Vector3 = (actor_ref.transform.basis *

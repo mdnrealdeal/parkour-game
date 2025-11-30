@@ -22,9 +22,9 @@ func physics_update(delta: float) -> void:
 
 	if actor_ref.is_on_floor():
 		if actor_ref.input_dir.length() > 0: 
-			transition_requested.emit(self, "LocomotionRun")
+			transition_requested.emit(self, LocomotionRun)
 		else:
-			transition_requested.emit(self, "LocomotionIdle")
+			transition_requested.emit(self, LocomotionIdle)
 		return
 
 	##region TODO: Wallrunning code. Not used yet. 

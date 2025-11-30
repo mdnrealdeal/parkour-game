@@ -5,7 +5,7 @@ extends Node
 
 #region Signals
 @warning_ignore("unused_signal")
-signal transition_requested(from_state: State, to_state_string: String)
+signal transition_requested(from_state: State, to_state_class: Script)
 #endregion
 
 #region Variables

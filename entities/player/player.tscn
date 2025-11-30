@@ -56,7 +56,6 @@ metadata/_custom_type_script = "uid://tmx0wensabcx"
 
 [node name="LocomotionJumpSquat" type="Node" parent="Layers/LocoLayer"]
 script = ExtResource("7_26q78")
-is_interruptable_state = null
 metadata/_custom_type_script = "uid://d2nfgtqleoe2j"
 
 [node name="ActionLayer" type="Node" parent="Layers"]

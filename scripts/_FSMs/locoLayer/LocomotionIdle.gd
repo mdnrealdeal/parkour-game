@@ -19,14 +19,14 @@ func physics_update(delta: float) -> void:
 	
 	
 	if not actor_ref.is_on_floor():
-		transition_requested.emit(self, "LocomotionAir")
+		transition_requested.emit(self, LocomotionAir)
 		return
 
 	if actor_ref.input_dir.length() > 0:
-		transition_requested.emit(self, "LocomotionRun")
+		transition_requested.emit(self, LocomotionRun)
 		return
 	
 	if actor_ref.request_to_jump:
 		actor_ref.velocity.y = actor_ref.move_stats.jump_force
-		transition_requested.emit(self, "LocomotionAir")
+		transition_requested.emit(self, LocomotionAir)
 		return
