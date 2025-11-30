@@ -1,0 +1,64 @@
+[gd_scene load_steps=10 format=3 uid="uid://bjj0ytq01q18h"]
+
+[ext_resource type="Script" uid="uid://b87brrqwnsyyf" path="res://scripts/player/player.gd" id="1_ucweq"]
+[ext_resource type="Resource" uid="uid://b8xoq6k34sbi6" path="res://resources/player_movementstats.tres" id="2_8fjmc"]
+[ext_resource type="Script" uid="uid://h5f1ust8e3b1" path="res://scripts/_FSMs/state_machine.gd" id="2_abrql"]
+[ext_resource type="Script" uid="uid://bs5rbrag8fxp3" path="res://scripts/_FSMs/locoLayer/LocomotionAir.gd" id="3_fkugw"]
+[ext_resource type="Script" uid="uid://pllfe75cu7b1" path="res://scripts/_FSMs/locoLayer/LocomotionIdle.gd" id="4_8fjmc"]
+[ext_resource type="Script" uid="uid://tmx0wensabcx" path="res://scripts/_FSMs/locoLayer/LocomotionRun.gd" id="5_qiwj3"]
+[ext_resource type="Script" uid="uid://d2nfgtqleoe2j" path="res://scripts/_FSMs/locoLayer/LocomotionJumpSquat.gd" id="7_26q78"]
+[ext_resource type="Script" uid="uid://oxlunud6hytu" path="res://scripts/_FSMs/locoLayer/LocomotionDash.gd" id="7_qiwj3"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_08t41"]
+height = 1.75
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_ucweq")
+mouse_sensitivity = 0.002
+move_stats = ExtResource("2_8fjmc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_08t41")
+debug_color = Color(0.99105245, 0.09259226, 5.7756904e-07, 0.41960785)
+
+[node name="Head" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+fov = 90.0
+
+[node name="Layers" type="Node" parent="."]
+
+[node name="LocoLayer" type="Node" parent="Layers" node_paths=PackedStringArray("initial_state")]
+unique_name_in_owner = true
+script = ExtResource("2_abrql")
+initial_state = NodePath("LocomotionIdle")
+
+[node name="LocomotionDash" type="Node" parent="Layers/LocoLayer"]
+script = ExtResource("7_qiwj3")
+is_interruptable_state = true
+metadata/_custom_type_script = "uid://oxlunud6hytu"
+
+[node name="LocomotionAir" type="Node" parent="Layers/LocoLayer"]
+script = ExtResource("3_fkugw")
+metadata/_custom_type_script = "uid://bs5rbrag8fxp3"
+
+[node name="LocomotionIdle" type="Node" parent="Layers/LocoLayer"]
+script = ExtResource("4_8fjmc")
+metadata/_custom_type_script = "uid://pllfe75cu7b1"
+
+[node name="LocomotionRun" type="Node" parent="Layers/LocoLayer"]
+script = ExtResource("5_qiwj3")
+metadata/_custom_type_script = "uid://tmx0wensabcx"
+
+[node name="LocomotionJumpSquat" type="Node" parent="Layers/LocoLayer"]
+script = ExtResource("7_26q78")
+is_interruptable_state = null
+metadata/_custom_type_script = "uid://d2nfgtqleoe2j"
+
+[node name="ActionLayer" type="Node" parent="Layers"]
+unique_name_in_owner = true
+script = ExtResource("2_abrql")

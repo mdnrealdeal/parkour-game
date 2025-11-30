@@ -1,0 +1,32 @@
+class_name LocomotionIdle
+extends State
+
+#region Internal variables
+const IDLE_RUN_DECAY: float = 3.0
+#endregion
+
+func physics_update(delta: float) -> void:
+	# decrement time before sprinting
+	actor_ref.move_stats.run_time -= delta * IDLE_RUN_DECAY
+	
+	
+	# friction
+	var current_velocity: Vector3 = Vector3(actor_ref.velocity.x, 0, actor_ref.velocity.z)
+	current_velocity = current_velocity.move_toward(Vector3.ZERO, actor_ref.move_stats.friction * delta)
+	
+	actor_ref.velocity.x = lerp(actor_ref.velocity.x, 0.0, actor_ref.move_stats.friction * delta)
+	actor_ref.velocity.z = lerp(actor_ref.velocity.z, 0.0, actor_ref.move_stats.friction * delta)
+	
+	
+	if not actor_ref.is_on_floor():
+		transition_requested.emit(self, "LocomotionAir")
+		return
+
+	if actor_ref.input_dir.length() > 0:
+		transition_requested.emit(self, "LocomotionRun")
+		return
+	
+	if actor_ref.request_to_jump:
+		actor_ref.velocity.y = actor_ref.move_stats.jump_force
+		transition_requested.emit(self, "LocomotionAir")
+		return
