@@ -17,6 +17,9 @@ func enter() -> void:
 	else: 
 		coyote_timer.stop()
 
+func can_coyote_jump() -> bool:
+	return false
+
 func physics_update(delta: float) -> void:
 	actor_ref.velocity.y -= actor_ref.gravity * delta
 

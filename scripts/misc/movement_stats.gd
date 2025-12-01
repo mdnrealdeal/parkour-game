@@ -21,10 +21,12 @@ extends Resource
 @export_group("Dash")
 @export var dash_speed: float = 20.0
 @export var dash_duration: float = 0.2
-@export var dash_acceleration: float = 8.0
-@export_range(0, 30, 0.5, "or_greater") var dash_cooldown: float = 10.0
-
+@export var dash_cooldown: float = 10.0
 
 var run_time: float = 0.0:
 	set(new_time):
 		run_time = clampf(new_time, 0.0, time_before_sprinting)
+
+var time_since_grounded: float = 0.0:
+	set(new_time):
+		time_since_grounded = clampf(time_since_grounded, 0.0, coyote_time_duration)

@@ -28,11 +28,25 @@ environment = SubResource("Environment_kljt5")
 [node name="Player" parent="." instance=ExtResource("1_xgkye")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.014434576, 1.1920929e-07, 0.002583027)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
+[node name="PauseManager" type="Node" parent="."]
+script = ExtResource("1_kljt5")
+
+[node name="Level" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Level"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 use_collision = true
 size = Vector3(10, 0.1, 10)
 material = SubResource("StandardMaterial3D_kljt5")
 
-[node name="PauseManager" type="Node" parent="."]
-script = ExtResource("1_kljt5")
+[node name="CSGBox3D2" type="CSGBox3D" parent="Level"]
+transform = Transform3D(0.8660253, -0.49999997, 0, 0.49999997, 0.8660253, 0, 0, 0, 1, 7, 0, -2.5)
+use_collision = true
+size = Vector3(5, 0.1, 4)
+material = SubResource("StandardMaterial3D_kljt5")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Level"]
+transform = Transform3D(0.7071067, -0.7071067, 0, 0.7071067, 0.7071067, 0, 0, 0, 1, 6, 0, 2.5)
+use_collision = true
+size = Vector3(5, 0.1, 4)
+material = SubResource("StandardMaterial3D_kljt5")
