@@ -23,10 +23,7 @@ extends Resource
 @export var dash_duration: float = 0.2
 @export var dash_cooldown: float = 10.0
 
-var run_time: float = 0.0:
-	set(new_time):
-		run_time = clampf(new_time, 0.0, time_before_sprinting)
-
-var time_since_grounded: float = 0.0:
-	set(new_time):
-		time_since_grounded = clampf(time_since_grounded, 0.0, coyote_time_duration)
+@export_group("Wallrun")
+@export var wallrun_jump_force_side: float = 6.0
+@export var wallrun_jump_force_up: float = 8.0
+@export var wallrun_gravity_mult: float = 0.3

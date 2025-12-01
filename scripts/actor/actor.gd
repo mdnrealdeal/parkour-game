@@ -8,21 +8,28 @@ extends CharacterBody3D
 @onready var head: Node3D = %Head
 @onready var collider: CollisionShape3D = %CollisionShape3D
 @onready var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
+@onready var ray_left: RayCast3D = %RayLeft
+@onready var ray_right: RayCast3D = %RayRight
 #endregion
 
 # Movement stats edited here.
 @export var move_stats: MovementStats
+
+#region State flags
+var run_time: float = 0.0:
+	set(new_time):
+		run_time = clampf(new_time, 0.0, move_stats.time_before_sprinting)
+
+var is_wall_running: bool = false
+var is_sprinting: bool = false
+var is_crouching: bool = false
+#endregion
 
 #region Virtual controller variables
 var input_dir: Vector2 = Vector2.ZERO
 var request_to_jump: bool = false
 var request_to_dash: bool = false
 var request_to_crouch: bool = false
-
-var run_time: float = 0.0:
-	set(new_time):
-		run_time = clampf(new_time, 0.0, move_stats.time_before_sprinting)
-		
 #endregion
 
 #region Methods

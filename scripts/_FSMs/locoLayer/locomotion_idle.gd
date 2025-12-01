@@ -7,7 +7,7 @@ const IDLE_RUN_DECAY: float = 3.0
 
 func physics_update(delta: float) -> void:
 	# decrement time before sprinting
-	actor_ref.move_stats.run_time -= delta * IDLE_RUN_DECAY
+	actor_ref.run_time -= delta * IDLE_RUN_DECAY
 	
 	
 	# friction

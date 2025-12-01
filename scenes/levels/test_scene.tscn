@@ -19,6 +19,7 @@ glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kljt5"]
 albedo_texture = ExtResource("2_bfhv8")
+texture_filter = 5
 
 [node name="scene_root" type="Node3D"]
 
@@ -37,6 +38,24 @@ script = ExtResource("1_kljt5")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 use_collision = true
 size = Vector3(10, 0.1, 10)
+material = SubResource("StandardMaterial3D_kljt5")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -1, 21.5)
+use_collision = true
+size = Vector3(6, 0.1, 15)
+material = SubResource("StandardMaterial3D_kljt5")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -1, -21.5)
+use_collision = true
+size = Vector3(6, 0.1, 15)
+material = SubResource("StandardMaterial3D_kljt5")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Level"]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -5, 1.5, 0)
+use_collision = true
+size = Vector3(6, 0.1, 30)
 material = SubResource("StandardMaterial3D_kljt5")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Level"]

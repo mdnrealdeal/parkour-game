@@ -27,12 +27,10 @@ func physics_update(delta: float) -> void:
 			transition_requested.emit(self, LocomotionIdle)
 		return
 
-	##region TODO: Wallrunning code. Not used yet. 
-	#if actor_ref.ray_right.is_colliding() or actor_ref.ray_left.is_colliding():
-		#if actor_ref.input_dir.y < 0: 
-			#transition_requested.emit(self, "WallRun")
-			#return
-	##endregion
+	if actor_ref.input_dir.y < -0.1 or actor_ref.input_dir.y > 0.1:
+		if actor_ref.ray_right.is_colliding() or actor_ref.ray_left.is_colliding():
+			transition_requested.emit(self, LocomotionWallrun)
+			return
 	
 	if actor_ref.request_to_jump and not coyote_timer.is_stopped():
 		coyote_timer.stop()
