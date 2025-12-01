@@ -48,10 +48,12 @@ func on_transition_requested(from_state: State, to_state_class: Script) -> void:
 	change_state(new_state)
 
 func change_state(new_state: State) -> void:
+	var previous_state: State = current_state
+	
 	if current_state:
 		current_state.exit()
 	
-	new_state.enter()
+	new_state.enter(previous_state)
 	current_state = new_state
 	
 	state_changed.emit(new_state)

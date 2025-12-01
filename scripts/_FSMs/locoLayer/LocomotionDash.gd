@@ -10,7 +10,7 @@ func _ready() -> void:
 	_cooldown_timer.one_shot = true
 	add_child(_cooldown_timer)
 
-func enter() -> void:
+func enter(_previous_state: State = null) -> void:
 	if actor_ref.input_dir.length() > 0:
 		_dash_direction = (actor_ref.transform.basis * 
 		Vector3(actor_ref.input_dir.x, 0, actor_ref.input_dir.y)).normalized()

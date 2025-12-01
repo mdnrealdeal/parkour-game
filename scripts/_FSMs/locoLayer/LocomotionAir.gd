@@ -10,15 +10,12 @@ func _ready() -> void:
 	coyote_timer.one_shot = true
 	add_child(coyote_timer)
 
-func enter() -> void:
+func enter(previous_state: State = null) -> void:
 	air_jumps_left = actor_ref.move_stats.max_air_jumps
-	if actor_ref.velocity.y <= 0.0:
+	if previous_state is not LocomotionAir and actor_ref.velocity.y <= 0.0:
 		coyote_timer.start(actor_ref.move_stats.coyote_time_duration)
 	else: 
 		coyote_timer.stop()
-
-func can_coyote_jump() -> bool:
-	return false
 
 func physics_update(delta: float) -> void:
 	actor_ref.velocity.y -= actor_ref.gravity * delta

@@ -18,7 +18,7 @@ var actor_ref: Actor
 func can_interrupt(_delta: float) -> bool:
 	return false
 
-func enter() -> void:
+func enter(_previous_state: State = null) -> void:
 	pass
 	
 func exit() -> void:
