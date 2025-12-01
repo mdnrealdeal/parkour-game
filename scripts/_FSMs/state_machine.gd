@@ -17,19 +17,27 @@ func init(actor: Actor) -> void:
 	states.clear()
 	interrupt_states.clear()
 	
-	for child in get_children():
-		if child is State:
-			states[child.get_script()] = child
-			child.actor_ref = actor
-			child.transition_requested.connect(on_transition_requested)
-			
-			if child.is_interruptable_state:
-				interrupt_states.append(child)
+	_recursively_find_states(self, actor)
 		
 	if initial_state:
 		initial_state.enter()
 		current_state = initial_state
 		
+
+func _recursively_find_states(node: Node, actor: Actor) -> void:
+	for child in node.get_children():
+		if child is State:
+			states[child.get_script()] = child
+			child.actor_ref = actor
+			
+			if not child.transition_requested.is_connected(on_transition_requested):
+				child.transition_requested.connect(on_transition_requested)
+			
+			if child.is_interruptable_state:
+				interrupt_states.append(child)
+		
+		elif child.get_child_count() > 0:
+			_recursively_find_states(child, actor)
 
 func on_transition_requested(from_state: State, to_state_class: Script) -> void:
 	if from_state != current_state:
