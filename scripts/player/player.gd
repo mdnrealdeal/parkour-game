@@ -5,7 +5,6 @@ extends Actor
 
 func _ready() -> void:
 	super._ready()
-	air_state_name = "JumpSquat"
 
 func _calculate_movement_parameters() -> void:
 	input_dir = Input.get_vector("move_left", "move_right", 
@@ -20,5 +19,5 @@ func _calculate_movement_parameters() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * mouse_sensitivity)
-		%Head.rotate_x(-event.relative.y * mouse_sensitivity)
-		%Head.rotation.x = clamp(%Head.rotation.x, deg_to_rad(-90), deg_to_rad(90))
+		head.rotate_x(-event.relative.y * mouse_sensitivity)
+		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-90), deg_to_rad(90))

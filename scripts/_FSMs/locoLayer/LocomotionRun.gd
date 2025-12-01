@@ -9,9 +9,9 @@ const SPRINT_STRAFE_THRESHOLD: float = 0.5
 func physics_update(delta: float) -> void:
 	# increment time before sprinting, as long as player is forward
 	if actor_ref.input_dir.y < -SPRINT_STRAFE_THRESHOLD:
-		actor_ref.move_stats.run_time += delta
+		actor_ref.run_time += delta
 	else:
-		actor_ref.move_stats.run_time -= delta * STRAFE_RUN_DECAY
+		actor_ref.run_time -= delta * STRAFE_RUN_DECAY
 	
 	if not actor_ref.is_on_floor():
 		transition_requested.emit(self, LocomotionAir)
@@ -32,7 +32,7 @@ func physics_update(delta: float) -> void:
 	var _current_speed: float = actor_ref.move_stats.speed
 	var _current_acceleration: float = actor_ref.move_stats.acceleration
 	
-	if actor_ref.move_stats.run_time >= actor_ref.move_stats.time_before_sprinting:
+	if actor_ref.run_time >= actor_ref.move_stats.time_before_sprinting:
 		_current_speed = actor_ref.move_stats.sprint_speed
 		_current_acceleration = actor_ref.move_stats.sprint_acceleration
 	

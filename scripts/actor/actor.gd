@@ -18,7 +18,11 @@ var input_dir: Vector2 = Vector2.ZERO
 var request_to_jump: bool = false
 var request_to_dash: bool = false
 var request_to_crouch: bool = false
-var air_state_name: String = "JumpInstant" # controls air state chosen by Player/NPC
+
+var run_time: float = 0.0:
+	set(new_time):
+		run_time = clampf(new_time, 0.0, move_stats.time_before_sprinting)
+		
 #endregion
 
 #region Methods

@@ -30,34 +30,34 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 [node name="Camera3D" type="Camera3D" parent="Head"]
 fov = 90.0
 
-[node name="Layers" type="Node" parent="."]
+[node name="Machines" type="Node" parent="."]
 
-[node name="LocoLayer" type="Node" parent="Layers" node_paths=PackedStringArray("initial_state")]
+[node name="LocoLayer" type="Node" parent="Machines" node_paths=PackedStringArray("initial_state")]
 unique_name_in_owner = true
 script = ExtResource("2_abrql")
 initial_state = NodePath("LocomotionIdle")
 
-[node name="LocomotionDash" type="Node" parent="Layers/LocoLayer"]
+[node name="LocomotionDash" type="Node" parent="Machines/LocoLayer"]
 script = ExtResource("7_qiwj3")
 is_interruptable_state = true
 metadata/_custom_type_script = "uid://oxlunud6hytu"
 
-[node name="LocomotionAir" type="Node" parent="Layers/LocoLayer"]
+[node name="LocomotionAir" type="Node" parent="Machines/LocoLayer"]
 script = ExtResource("3_fkugw")
 metadata/_custom_type_script = "uid://bs5rbrag8fxp3"
 
-[node name="LocomotionIdle" type="Node" parent="Layers/LocoLayer"]
+[node name="LocomotionIdle" type="Node" parent="Machines/LocoLayer"]
 script = ExtResource("4_8fjmc")
 metadata/_custom_type_script = "uid://pllfe75cu7b1"
 
-[node name="LocomotionRun" type="Node" parent="Layers/LocoLayer"]
+[node name="LocomotionRun" type="Node" parent="Machines/LocoLayer"]
 script = ExtResource("5_qiwj3")
 metadata/_custom_type_script = "uid://tmx0wensabcx"
 
-[node name="LocomotionJumpSquat" type="Node" parent="Layers/LocoLayer"]
+[node name="LocomotionJumpSquat" type="Node" parent="Machines/LocoLayer"]
 script = ExtResource("7_26q78")
 metadata/_custom_type_script = "uid://d2nfgtqleoe2j"
 
-[node name="ActionLayer" type="Node" parent="Layers"]
+[node name="ActionLayer" type="Node" parent="Machines"]
 unique_name_in_owner = true
 script = ExtResource("2_abrql")
