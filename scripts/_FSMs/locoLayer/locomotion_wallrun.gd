@@ -9,6 +9,8 @@ var _wall_side: int = WallSide.NONE
 
 func enter(_previous_state: State = null) -> void:
 	actor_ref.is_wall_running = true
+	if actor_ref.velocity.y != 0.0:
+		actor_ref.velocity.y = actor_ref.velocity.y / 2
 	
 	if actor_ref.ray_right.is_colliding():
 		_wall_side = WallSide.RIGHT
@@ -53,9 +55,9 @@ func physics_update(_delta: float) -> void:
 		)
 	
 	var wall_forward := input_dir_3d.slide(_wall_normal).normalized()
-	var target_velocity := wall_forward * actor_ref.move_stats.speed
+	var target_velocity := wall_forward * actor_ref.move_stats.sprint_speed
 	
 	actor_ref.velocity.x = lerp(actor_ref.velocity.x, target_velocity.x, actor_ref.move_stats.acceleration * _delta)
 	actor_ref.velocity.z = lerp(actor_ref.velocity.z, target_velocity.z, actor_ref.move_stats.acceleration * _delta)
 	
-	#actor_ref.velocity -= _wall_normal * 1.0
+	actor_ref.velocity -= _wall_normal * 0.25
