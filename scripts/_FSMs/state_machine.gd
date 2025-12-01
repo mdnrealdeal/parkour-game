@@ -43,7 +43,7 @@ func on_transition_requested(from_state: State, to_state_class: Script) -> void:
 	if from_state != current_state:
 		push_warning("FSM Warning: State (" + from_state.name + ") 
 			requested transition without being current valid state 
-			(" + current_state.namew + "). Transition denied.")
+			(" + current_state.name + "). Transition denied.")
 		return
 	
 	var new_state: State = states.get(to_state_class)
