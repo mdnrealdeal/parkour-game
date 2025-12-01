@@ -12,7 +12,7 @@ func _ready() -> void:
 
 func enter(previous_state: State = null) -> void:
 	air_jumps_left = actor_ref.move_stats.max_air_jumps
-	if previous_state is not LocomotionAir and actor_ref.velocity.y <= 0.0:
+	if previous_state is not LocomotionDash and actor_ref.velocity.y <= 0.0:
 		coyote_timer.start(actor_ref.move_stats.coyote_time_duration)
 	else: 
 		coyote_timer.stop()
