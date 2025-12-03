@@ -27,6 +27,66 @@ func exit() -> void:
 	
 func physics_update(_delta: float) -> void:
 	
+	if do_wall_jump(): return
+	
+	actor_ref.velocity.y -= (actor_ref.gravity * actor_ref.move_stats.wallrun_gravity_mult) * _delta
+	
+	var is_on_wall: bool = false
+	var current_normal: Vector3 = Vector3.ZERO
+	
+	if _wall_side == WallSide.RIGHT:
+		if actor_ref.ray_right.is_colliding():
+			is_on_wall = true
+			current_normal = actor_ref.ray_right.get_collision_normal()
+		if actor_ref.ray_back_right.is_colliding():
+			is_on_wall = true
+			current_normal = actor_ref.ray_back_right.get_collision_normal()
+	
+	if _wall_side == WallSide.LEFT:
+		if actor_ref.ray_left.is_colliding():
+			is_on_wall = true
+			current_normal = actor_ref.ray_left.get_collision_normal()
+		if actor_ref.ray_back_left.is_colliding():
+			is_on_wall = true
+			current_normal = actor_ref.ray_back_left.get_collision_normal()
+	
+	if is_on_wall:
+		_wall_normal = current_normal
+		_linger_timer = 0.0
+	else:
+		_linger_timer += _delta
+		if _linger_timer > actor_ref.move_stats.wallrun_linger_duration:
+			transition_requested.emit(self, LocomotionRun)
+			return
+	
+	if actor_ref.is_on_floor():
+		transition_requested.emit(self, LocomotionIdle)
+		return
+		
+		
+	var input_dir_3d := (
+		(actor_ref.transform.basis * Vector3(actor_ref.input_dir.x, 0, 
+		actor_ref.input_dir.y))
+		.normalized()
+		)
+	
+	var wallrun_speed := actor_ref.move_stats.wallrun_speed
+	if actor_ref.input_dir.y > 0:
+		wallrun_speed = wallrun_speed * actor_ref.move_stats.wallrun_speed_penalty
+	
+	var wall_forward := input_dir_3d.slide(_wall_normal).normalized()
+	var target_velocity := wall_forward * wallrun_speed
+	
+	actor_ref.velocity.x = lerp(actor_ref.velocity.x, target_velocity.x,
+	actor_ref.move_stats.acceleration * _delta)
+	
+	actor_ref.velocity.z = lerp(actor_ref.velocity.z, target_velocity.z, 
+	actor_ref.move_stats.acceleration * _delta)
+	
+	if is_on_wall:
+		actor_ref.velocity -= _wall_normal * 0.5
+
+func do_wall_jump() -> bool:
 	if actor_ref.request_to_jump:
 		var look_dir := -actor_ref.head.global_transform.basis.z
 		look_dir.y = 0
@@ -42,46 +102,5 @@ func physics_update(_delta: float) -> void:
 		
 		actor_ref.velocity = jump_velocity
 		transition_requested.emit(self, LocomotionAir)
-		return
-	
-	actor_ref.velocity.y -= (actor_ref.gravity * actor_ref.move_stats.wallrun_gravity_mult) * _delta
-	
-	var is_on_wall: bool = false
-	if _wall_side == WallSide.RIGHT and actor_ref.ray_right.is_colliding():
-		is_on_wall = true
-		_wall_normal = actor_ref.ray_right.get_collision_normal()
-	elif _wall_side == WallSide.LEFT and actor_ref.ray_left.is_colliding():
-		is_on_wall = true
-		_wall_normal = actor_ref.ray_left.get_collision_normal()
-	
-	if is_on_wall:
-		_linger_timer = 0.0 
-	else:
-		_linger_timer += _delta 
-		
-	if _linger_timer > actor_ref.move_stats.wallrun_linger_duration:
-		transition_requested.emit(self, LocomotionAir)
-		return
-	
-	if actor_ref.is_on_floor():
-		transition_requested.emit(self, LocomotionIdle)
-		return
-	
-		
-	# 6. Movement Logic
-	var input_dir_3d := (
-		(actor_ref.transform.basis * Vector3(actor_ref.input_dir.x, 0, actor_ref.input_dir.y))
-		.normalized()
-		)
-	
-	var wall_forward := input_dir_3d.slide(_wall_normal).normalized()
-	var target_velocity := wall_forward * actor_ref.move_stats.speed
-	
-	actor_ref.velocity.x = lerp(actor_ref.velocity.x, target_velocity.x,
-	actor_ref.move_stats.acceleration * _delta)
-	
-	actor_ref.velocity.z = lerp(actor_ref.velocity.z, target_velocity.z, 
-	actor_ref.move_stats.acceleration * _delta)
-	
-	if is_on_wall:
-		actor_ref.velocity -= _wall_normal * 0.25
+		return true
+	return false

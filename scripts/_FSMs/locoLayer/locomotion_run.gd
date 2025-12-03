@@ -7,7 +7,6 @@ const SPRINT_STRAFE_THRESHOLD: float = 0.5
 #endregion
 
 func physics_update(delta: float) -> void:
-	# increment time before sprinting, as long as player is forward
 	if actor_ref.input_dir.y < -SPRINT_STRAFE_THRESHOLD:
 		actor_ref.run_time += delta
 	else:

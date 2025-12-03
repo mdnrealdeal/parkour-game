@@ -58,6 +58,9 @@ func _update_text() -> void:
 	var h_vel := Vector2(actor.velocity.x, actor.velocity.z).length()
 	var v_vel := actor.velocity.y
 	
+	var inputdir_x := actor.input_dir.x
+	var inputdir_y := actor.input_dir.y
+	
 	text = """
 	Locomotion FSM:
 	State: %s
@@ -71,9 +74,12 @@ func _update_text() -> void:
 	Horizontal Speed: %.2f
 	Vertical Speed: %.2f
 	WallRun: %s
+	X Input Dir: %s
+	Y Input Dir: %s
 	""" % [
 		loco_current, loco_prev,
 		action_current, action_prev,
 		h_vel, v_vel,
-		str(actor.is_wall_running)
+		str(actor.is_wall_running),
+		inputdir_x, inputdir_y
 	]

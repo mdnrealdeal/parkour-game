@@ -18,17 +18,20 @@ func _ready() -> void:
 	add_child(wallrun_timer)
 
 func enter(previous_state: State = null) -> void:
-	air_jumps_left = actor_ref.move_stats.max_air_jumps
 	
 	if previous_state is LocomotionWallrun:
 		wallrun_timer.start(WALLRUN_COOLDOWN)
 	else:
 		wallrun_timer.stop()
 	
-	if previous_state is not LocomotionDash and actor_ref.velocity.y <= 0.0:
-		coyote_timer.start(actor_ref.move_stats.coyote_time_duration)
-	else: 
+	if previous_state is LocomotionDash:
 		coyote_timer.stop()
+	else: 
+		air_jumps_left = actor_ref.move_stats.max_air_jumps
+		if actor_ref.velocity.y <= 0.0:
+			coyote_timer.start(actor_ref.move_stats.coyote_time_duration)
+		else:
+			coyote_timer.stop()
 
 func physics_update(delta: float) -> void:
 	actor_ref.velocity.y -= actor_ref.gravity * delta

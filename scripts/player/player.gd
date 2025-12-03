@@ -1,7 +1,7 @@
 class_name Player
 extends Actor
 
-@export var mouse_sensitivity: float = 30
+@export_range(0, 100, 1) var mouse_sensitivity: int = 30
 const SENS_MODIFIER = 0.0001
 
 func _ready() -> void:

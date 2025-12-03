@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cybblbhhayuar"]
+[gd_scene load_steps=10 format=3 uid="uid://cybblbhhayuar"]
 
 [ext_resource type="Script" uid="uid://d2703hr0pb4k2" path="res://scripts/misc/pause_manager.gd" id="1_kljt5"]
 [ext_resource type="PackedScene" uid="uid://bjj0ytq01q18h" path="res://entities/player/player.tscn" id="1_xgkye"]
@@ -22,6 +22,10 @@ glow_enabled = true
 albedo_texture = ExtResource("2_bfhv8")
 texture_filter = 5
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ad8uc"]
+albedo_texture = ExtResource("2_bfhv8")
+texture_filter = 0
+
 [node name="scene_root" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -29,6 +33,7 @@ environment = SubResource("Environment_kljt5")
 
 [node name="Player" parent="." instance=ExtResource("1_xgkye")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.014434576, 1.1920929e-07, 0.002583027)
+mouse_sensitivity = 30
 
 [node name="PauseManager" type="Node" parent="."]
 script = ExtResource("1_kljt5")
@@ -62,9 +67,9 @@ size = Vector3(6, 0.1, 15)
 material = SubResource("StandardMaterial3D_kljt5")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="Level"]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -5, 1.5, 0)
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -6.45, 1.5000001, 0)
 use_collision = true
-size = Vector3(6, 0.1, 30)
+size = Vector3(6, 3, 30)
 material = SubResource("StandardMaterial3D_kljt5")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Level"]
@@ -78,3 +83,11 @@ transform = Transform3D(0.7071067, -0.7071067, 0, 0.7071067, 0.7071067, 0, 0, 0,
 use_collision = true
 size = Vector3(5, 0.1, 4)
 material = SubResource("StandardMaterial3D_kljt5")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.5, -26)
+use_collision = true
+radius = 3.0
+height = 5.0
+sides = 40
+material = SubResource("StandardMaterial3D_ad8uc")
