@@ -5,6 +5,9 @@ extends State
 const IDLE_RUN_DECAY: float = 3.0
 #endregion
 
+func enter(_previous_state: State = null) -> void:
+	actor_ref.is_sprinting = false
+
 func physics_update(delta: float) -> void:
 	# decrement time before sprinting
 	actor_ref.run_time -= delta * IDLE_RUN_DECAY

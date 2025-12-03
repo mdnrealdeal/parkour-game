@@ -35,7 +35,7 @@ func physics_update(delta: float) -> void:
 
 func _check_transitions(delta: float) -> bool:
 	if actor_ref.is_on_floor():
-		transition_requested.emit(self, LocomotionIdle)
+		transition_requested.emit(self, LocomotionRun)
 		return true
 
 	var is_on_wall: bool = _update_wall_status()
@@ -85,7 +85,7 @@ func _apply_movement(delta: float) -> void:
 		.normalized()
 	)
 	
-	var wallrun_speed := actor_ref.move_stats.wallrun_speed
+	var wallrun_speed := 6.0
 	if actor_ref.input_dir.y > 0:
 		wallrun_speed = wallrun_speed * actor_ref.move_stats.wallrun_speed_penalty
 	

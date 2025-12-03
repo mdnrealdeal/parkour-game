@@ -73,7 +73,8 @@ func _update_text() -> void:
 	Stats:
 	Horizontal Speed: %.2f
 	Vertical Speed: %.2f
-	WallRun: %s
+	Wallrun: %s
+	Sprinting: %s
 	X Input Dir: %s
 	Y Input Dir: %s
 	""" % [
@@ -81,5 +82,6 @@ func _update_text() -> void:
 		action_current, action_prev,
 		h_vel, v_vel,
 		str(actor.is_wall_running),
+		str(actor.is_sprinting),
 		inputdir_x, inputdir_y
 	]

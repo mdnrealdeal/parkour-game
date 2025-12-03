@@ -31,5 +31,4 @@ extends Resource
 @export_subgroup("Wallrun Misc", "wallrun")
 @export var wallrun_gravity_mult: float = 0.3
 @export var wallrun_linger_duration: float = 0.25
-@export var wallrun_speed: float = 8.0
 @export var wallrun_speed_penalty: float = 0.3
