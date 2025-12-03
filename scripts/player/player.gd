@@ -1,7 +1,8 @@
 class_name Player
 extends Actor
 
-@export var mouse_sensitivity: float = 0.003
+@export var mouse_sensitivity: float = 30
+const SENS_MODIFIER = 0.0001
 
 func _ready() -> void:
 	super._ready()
@@ -18,6 +19,8 @@ func _calculate_movement_parameters() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
-		rotate_y(-event.relative.x * mouse_sensitivity)
-		head.rotate_x(-event.relative.y * mouse_sensitivity)
+		var final_sensitivity: float = mouse_sensitivity * SENS_MODIFIER
+		
+		rotate_y(-event.relative.x * final_sensitivity)
+		head.rotate_x(-event.relative.y * final_sensitivity)
 		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-90), deg_to_rad(90))

@@ -25,5 +25,6 @@ extends Resource
 
 @export_group("Wallrun")
 @export var wallrun_jump_force_side: float = 6.0
+@export var wallrun_jump_force_forward: float = 6.0
 @export var wallrun_jump_force_up: float = 8.0
 @export var wallrun_gravity_mult: float = 0.3

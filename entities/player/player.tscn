@@ -15,7 +15,7 @@ height = 1.75
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_ucweq")
-mouse_sensitivity = 0.002
+mouse_sensitivity = 16.0
 move_stats = ExtResource("2_8fjmc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -26,9 +26,11 @@ debug_color = Color(0.99105245, 0.09259226, 5.7756904e-07, 0.41960785)
 
 [node name="Head" type="Node3D" parent="."]
 unique_name_in_owner = true
+physics_interpolation_mode = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
+physics_interpolation_mode = 2
 fov = 90.0
 
 [node name="Sensors" type="Node3D" parent="."]
@@ -51,7 +53,9 @@ unique_name_in_owner = true
 script = ExtResource("2_abrql")
 initial_state = NodePath("LocomotionIdle")
 
-[node name="LocomotionDash" type="Node" parent="Machines/LocoLayer"]
+[node name="Interruptable" type="Node" parent="Machines/LocoLayer"]
+
+[node name="LocomotionDash" type="Node" parent="Machines/LocoLayer/Interruptable"]
 script = ExtResource("7_qiwj3")
 is_interruptable_state = true
 metadata/_custom_type_script = "uid://oxlunud6hytu"

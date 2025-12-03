@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://cybblbhhayuar"]
+[gd_scene load_steps=9 format=3 uid="uid://cybblbhhayuar"]
 
 [ext_resource type="Script" uid="uid://d2703hr0pb4k2" path="res://scripts/misc/pause_manager.gd" id="1_kljt5"]
 [ext_resource type="PackedScene" uid="uid://bjj0ytq01q18h" path="res://entities/player/player.tscn" id="1_xgkye"]
 [ext_resource type="Texture2D" uid="uid://dkdkcfmekgeml" path="res://assets/textures/tex_DebugGrid.png" id="2_bfhv8"]
+[ext_resource type="Script" uid="uid://l5ji4qki13od" path="res://scripts/ui/_debug/label_state_display.gd" id="3_ad8uc"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xgkye"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -31,6 +32,14 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.0
 
 [node name="PauseManager" type="Node" parent="."]
 script = ExtResource("1_kljt5")
+
+[node name="DebugUI" type="CanvasLayer" parent="."]
+
+[node name="debug_text" type="Label" parent="DebugUI" node_paths=PackedStringArray("actor")]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("3_ad8uc")
+actor = NodePath("../../Player")
 
 [node name="Level" type="Node3D" parent="."]
 
