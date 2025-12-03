@@ -11,12 +11,12 @@ func physics_update(delta: float) -> void:
 	
 	
 	# friction
-	var current_velocity: Vector3 = Vector3(actor_ref.velocity.x, 0, actor_ref.velocity.z)
+	var current_velocity := Vector2(actor_ref.velocity.x, actor_ref.velocity.z)
 	
-	current_velocity = current_velocity.move_toward(Vector3.ZERO, actor_ref.move_stats.friction * delta)
-	
-	actor_ref.velocity.x = lerp(actor_ref.velocity.x, 0.0, actor_ref.move_stats.friction * delta)
-	actor_ref.velocity.z = lerp(actor_ref.velocity.z, 0.0, actor_ref.move_stats.friction * delta)
+	current_velocity = current_velocity.move_toward(Vector2.ZERO, actor_ref.move_stats.friction * delta)
+
+	actor_ref.velocity.x = current_velocity.x
+	actor_ref.velocity.z = current_velocity.y
 	
 	
 	if not actor_ref.is_on_floor():

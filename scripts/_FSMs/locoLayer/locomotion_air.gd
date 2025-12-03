@@ -3,17 +3,28 @@ extends State
 
 #region Internal variables
 const WALLRUN_THRESHOLD: float = 0.5
+const WALLRUN_COOLDOWN: float = 0.25
 
 var air_jumps_left: int = 0
+
 @onready var coyote_timer: Timer = Timer.new()
+@onready var wallrun_timer: Timer = Timer.new()
 #endregion
 
 func _ready() -> void:
 	coyote_timer.one_shot = true
+	wallrun_timer.one_shot = true
 	add_child(coyote_timer)
+	add_child(wallrun_timer)
 
 func enter(previous_state: State = null) -> void:
 	air_jumps_left = actor_ref.move_stats.max_air_jumps
+	
+	if previous_state is LocomotionWallrun:
+		wallrun_timer.start(WALLRUN_COOLDOWN)
+	else:
+		wallrun_timer.stop()
+	
 	if previous_state is not LocomotionDash and actor_ref.velocity.y <= 0.0:
 		coyote_timer.start(actor_ref.move_stats.coyote_time_duration)
 	else: 
@@ -31,8 +42,9 @@ func physics_update(delta: float) -> void:
 
 	if actor_ref.input_dir.y < -WALLRUN_THRESHOLD or actor_ref.input_dir.y > WALLRUN_THRESHOLD:
 		if actor_ref.ray_right.is_colliding() or actor_ref.ray_left.is_colliding():
-			transition_requested.emit(self, LocomotionWallrun)
-			return
+			if wallrun_timer.is_stopped():
+				transition_requested.emit(self, LocomotionWallrun)
+				return
 	
 	if actor_ref.request_to_jump and not coyote_timer.is_stopped():
 		coyote_timer.stop()
