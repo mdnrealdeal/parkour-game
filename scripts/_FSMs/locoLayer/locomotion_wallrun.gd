@@ -25,50 +25,65 @@ func enter(_previous_state: State = null) -> void:
 func exit() -> void:
 	actor_ref.is_wall_running = false
 	
-func physics_update(_delta: float) -> void:
-	
+func physics_update(delta: float) -> void:
 	if do_wall_jump(): return
+	if _check_transitions(delta): return
 	
-	actor_ref.velocity.y -= (actor_ref.gravity * actor_ref.move_stats.wallrun_gravity_mult) * _delta
-	
-	var is_on_wall: bool = false
+	_apply_gravity(delta)
+	_apply_movement(delta)
+
+
+func _check_transitions(delta: float) -> bool:
+	if actor_ref.is_on_floor():
+		transition_requested.emit(self, LocomotionIdle)
+		return true
+
+	var is_on_wall: bool = _update_wall_status()
+
+	if is_on_wall:
+		_linger_timer = 0.0
+	else:
+		_linger_timer += delta
+		if _linger_timer > actor_ref.move_stats.wallrun_linger_duration:
+			transition_requested.emit(self, LocomotionAir)
+			return true
+			
+	return false
+
+func _update_wall_status() -> bool:
 	var current_normal: Vector3 = Vector3.ZERO
+	var found_wall: bool = false
 	
 	if _wall_side == WallSide.RIGHT:
 		if actor_ref.ray_right.is_colliding():
-			is_on_wall = true
+			found_wall = true
 			current_normal = actor_ref.ray_right.get_collision_normal()
-		if actor_ref.ray_back_right.is_colliding():
-			is_on_wall = true
+		elif actor_ref.ray_back_right.is_colliding():
+			found_wall = true
 			current_normal = actor_ref.ray_back_right.get_collision_normal()
-	
-	if _wall_side == WallSide.LEFT:
+			
+	elif _wall_side == WallSide.LEFT:
 		if actor_ref.ray_left.is_colliding():
-			is_on_wall = true
+			found_wall = true
 			current_normal = actor_ref.ray_left.get_collision_normal()
-		if actor_ref.ray_back_left.is_colliding():
-			is_on_wall = true
+		elif actor_ref.ray_back_left.is_colliding():
+			found_wall = true
 			current_normal = actor_ref.ray_back_left.get_collision_normal()
-	
-	if is_on_wall:
+			
+	if found_wall:
 		_wall_normal = current_normal
-		_linger_timer = 0.0
-	else:
-		_linger_timer += _delta
-		if _linger_timer > actor_ref.move_stats.wallrun_linger_duration:
-			transition_requested.emit(self, LocomotionRun)
-			return
-	
-	if actor_ref.is_on_floor():
-		transition_requested.emit(self, LocomotionIdle)
-		return
 		
-		
+	return found_wall
+
+func _apply_gravity(delta: float) -> void:
+	actor_ref.velocity.y -= (actor_ref.gravity * actor_ref.move_stats.wallrun_gravity_mult) * delta
+
+func _apply_movement(delta: float) -> void:
 	var input_dir_3d := (
 		(actor_ref.transform.basis * Vector3(actor_ref.input_dir.x, 0, 
 		actor_ref.input_dir.y))
 		.normalized()
-		)
+	)
 	
 	var wallrun_speed := actor_ref.move_stats.wallrun_speed
 	if actor_ref.input_dir.y > 0:
@@ -77,14 +92,10 @@ func physics_update(_delta: float) -> void:
 	var wall_forward := input_dir_3d.slide(_wall_normal).normalized()
 	var target_velocity := wall_forward * wallrun_speed
 	
-	actor_ref.velocity.x = lerp(actor_ref.velocity.x, target_velocity.x,
-	actor_ref.move_stats.acceleration * _delta)
+	actor_ref.velocity.x = lerp(actor_ref.velocity.x, target_velocity.x, actor_ref.move_stats.acceleration * delta)
+	actor_ref.velocity.z = lerp(actor_ref.velocity.z, target_velocity.z, actor_ref.move_stats.acceleration * delta)
 	
-	actor_ref.velocity.z = lerp(actor_ref.velocity.z, target_velocity.z, 
-	actor_ref.move_stats.acceleration * _delta)
-	
-	if is_on_wall:
-		actor_ref.velocity -= _wall_normal * 0.5
+	actor_ref.velocity -= _wall_normal * 0.25
 
 func do_wall_jump() -> bool:
 	if actor_ref.request_to_jump:

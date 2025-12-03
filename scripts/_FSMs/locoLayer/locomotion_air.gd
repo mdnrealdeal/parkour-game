@@ -3,7 +3,7 @@ extends State
 
 #region Internal variables
 const WALLRUN_THRESHOLD: float = 0.5
-const WALLRUN_COOLDOWN: float = 0.25
+const WALLRUN_COOLDOWN: float = 0.75
 
 var air_jumps_left: int = 0
 
