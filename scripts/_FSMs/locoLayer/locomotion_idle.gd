@@ -12,6 +12,7 @@ func physics_update(delta: float) -> void:
 	
 	# friction
 	var current_velocity: Vector3 = Vector3(actor_ref.velocity.x, 0, actor_ref.velocity.z)
+	
 	current_velocity = current_velocity.move_toward(Vector3.ZERO, actor_ref.move_stats.friction * delta)
 	
 	actor_ref.velocity.x = lerp(actor_ref.velocity.x, 0.0, actor_ref.move_stats.friction * delta)

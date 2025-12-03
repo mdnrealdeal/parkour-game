@@ -2,6 +2,8 @@ class_name LocomotionAir
 extends State
 
 #region Internal variables
+const WALLRUN_THRESHOLD: float = 0.5
+
 var air_jumps_left: int = 0
 @onready var coyote_timer: Timer = Timer.new()
 #endregion
@@ -27,7 +29,7 @@ func physics_update(delta: float) -> void:
 			transition_requested.emit(self, LocomotionIdle)
 		return
 
-	if actor_ref.input_dir.y < -0.1 or actor_ref.input_dir.y > 0.1:
+	if actor_ref.input_dir.y < -WALLRUN_THRESHOLD or actor_ref.input_dir.y > WALLRUN_THRESHOLD:
 		if actor_ref.ray_right.is_colliding() or actor_ref.ray_left.is_colliding():
 			transition_requested.emit(self, LocomotionWallrun)
 			return
