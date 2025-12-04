@@ -30,4 +30,4 @@ func physics_update(_delta: float) -> void:
 		transition_requested.emit(self, LocomotionAir)
 	
 func can_interrupt(_delta: float) -> bool:
-	return actor_ref.request_to_dash and actor_ref.blackboard.is_dash_ready()
+	return actor_ref.request_to_dash and actor_ref.blackboard.is_dash_ready() and actor_ref.is_on_floor()

@@ -11,10 +11,10 @@ enum WallSide {LEFT = -1, NONE = 0, RIGHT = 1}
 @onready var dash_cooldown: Timer = Timer.new()
 
 # float counters
-var max_run_time: float = 5.0
+var _max_run_time: float = 5.0
 var run_time: float = 0.0:
 	set(new_time):
-		run_time = clampf(new_time, 0.0, max_run_time)
+		run_time = clampf(new_time, 0.0, _max_run_time)
 
 # counters
 var air_jumps_left: int = 0
@@ -40,10 +40,6 @@ func _ready() -> void:
 	add_child(coyote_cooldown)
 	add_child(wallrun_cooldown)
 	add_child(dash_cooldown)
-
-func setup_run_time(time: float) -> void:
-	max_run_time = time
-
 
 
 #region helper functions
@@ -73,5 +69,8 @@ func is_coyote_cooldown_active() -> bool:
 
 func reset_air_movements(max_jumps: int) -> void:
 	air_jumps_left = max_jumps
-	dash_cooldown.stop()
+	#dash_cooldown.stop()
+
+func setup_run_time(time: float) -> void:
+	_max_run_time = time
 #endregion

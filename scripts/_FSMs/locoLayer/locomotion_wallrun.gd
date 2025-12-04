@@ -27,7 +27,7 @@ func exit() -> void:
 	actor_ref.blackboard.last_wall_normal = _wall_normal
 	actor_ref.blackboard.last_wall_side = _wall_side
 	
-	actor_ref.blackboard.start_wallrun_cooldown(0.75)
+	actor_ref.blackboard.start_wallrun_cooldown(actor_ref.move_stats.wallrun_cooldown)
 	
 func physics_update(delta: float) -> void:
 	if do_wall_jump(): return
@@ -89,7 +89,10 @@ func _apply_movement(delta: float) -> void:
 		.normalized()
 	)
 	
-	var wallrun_speed := 6.0
+	var wallrun_speed := actor_ref.move_stats.speed
+	if actor_ref.blackboard.is_sprinting:
+		wallrun_speed = actor_ref.move_stats.sprint_speed
+	
 	if actor_ref.input_dir.y > 0:
 		wallrun_speed = wallrun_speed * actor_ref.move_stats.wallrun_speed_penalty
 	
