@@ -37,7 +37,6 @@ environment = SubResource("Environment_kljt5")
 
 [node name="Player" parent="." instance=ExtResource("1_xgkye")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.014434576, 1.1920929e-07, 0.002583027)
-mouse_sensitivity = 30
 
 [node name="PauseManager" type="Node" parent="."]
 script = ExtResource("1_kljt5")

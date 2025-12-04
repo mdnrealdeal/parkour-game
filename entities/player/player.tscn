@@ -15,7 +15,7 @@ height = 1.75
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_ucweq")
-mouse_sensitivity = 12
+mouse_sensitivity = 24
 move_stats = ExtResource("2_8fjmc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

@@ -23,6 +23,7 @@ func enter(_previous_state: State = null) -> void:
 		_wall_normal = actor_ref.ray_left.get_collision_normal()
 		
 	actor_ref.blackboard.current_wall_side = _wall_side
+	actor_ref.blackboard.current_wall_normal = _wall_normal
 
 func exit() -> void:
 	actor_ref.blackboard.is_wall_running = false
@@ -89,7 +90,7 @@ func _apply_gravity(delta: float) -> void:
 
 func _apply_movement(delta: float) -> void:
 	var input_dir_3d := (
-		(actor_ref.transform.basis * Vector3(actor_ref.input_dir.x, 0, 
+		(actor_ref.transform.basis * Vector3(0, 0, 
 		actor_ref.input_dir.y))
 		.normalized()
 	)
