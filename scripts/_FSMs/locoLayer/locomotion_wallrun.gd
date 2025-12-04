@@ -21,11 +21,15 @@ func enter(_previous_state: State = null) -> void:
 	elif actor_ref.ray_left.is_colliding():
 		_wall_side = WallSide.LEFT
 		_wall_normal = actor_ref.ray_left.get_collision_normal()
+		
+	actor_ref.blackboard.current_wall_side = _wall_side
 
 func exit() -> void:
 	actor_ref.blackboard.is_wall_running = false
 	actor_ref.blackboard.last_wall_normal = _wall_normal
 	actor_ref.blackboard.last_wall_side = _wall_side
+	actor_ref.blackboard.current_wall_normal = Vector3.ZERO
+	actor_ref.blackboard.current_wall_side = WallSide.NONE
 	
 	actor_ref.blackboard.start_wallrun_cooldown(actor_ref.move_stats.wallrun_cooldown)
 	
@@ -76,6 +80,7 @@ func _update_wall_status() -> bool:
 			
 	if found_wall:
 		_wall_normal = current_normal
+		actor_ref.blackboard.current_wall_normal = current_normal
 		
 	return found_wall
 

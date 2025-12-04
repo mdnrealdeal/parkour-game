@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cybblbhhayuar"]
+[gd_scene load_steps=11 format=3 uid="uid://cybblbhhayuar"]
 
 [ext_resource type="Script" uid="uid://d2703hr0pb4k2" path="res://scripts/misc/pause_manager.gd" id="1_kljt5"]
 [ext_resource type="PackedScene" uid="uid://bjj0ytq01q18h" path="res://entities/player/player.tscn" id="1_xgkye"]
@@ -20,6 +20,10 @@ glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kljt5"]
 albedo_texture = ExtResource("2_bfhv8")
+texture_filter = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nd4bu"]
+albedo_color = Color(0, 0, 0, 1)
 texture_filter = 5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ad8uc"]
@@ -54,6 +58,12 @@ use_collision = true
 size = Vector3(10, 0.1, 10)
 material = SubResource("StandardMaterial3D_kljt5")
 
+[node name="CSGBox3D7" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -3, 0.5)
+use_collision = true
+size = Vector3(24, 0.1, 65)
+material = SubResource("StandardMaterial3D_nd4bu")
+
 [node name="CSGBox3D5" type="CSGBox3D" parent="Level"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -1, 21.5)
 use_collision = true
@@ -79,7 +89,7 @@ size = Vector3(5, 0.1, 4)
 material = SubResource("StandardMaterial3D_kljt5")
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="Level"]
-transform = Transform3D(0.7071067, -0.7071067, 0, 0.7071067, 0.7071067, 0, 0, 0, 1, 6, 0, 2.5)
+transform = Transform3D(0.8660253, 0.49999988, 0, -0.49999988, 0.8660253, 0, 0, 0, 1, 7.2, -2.2, 2.5)
 use_collision = true
 size = Vector3(5, 0.1, 4)
 material = SubResource("StandardMaterial3D_kljt5")

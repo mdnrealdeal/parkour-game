@@ -28,6 +28,9 @@ var is_sprinting: bool = false:
 			_on_sprinting_changed(value)
 
 var is_crouching: bool = false
+
+var current_wall_side: int = WallSide.NONE
+var current_wall_normal: Vector3 = Vector3.ZERO
 var last_wall_normal: Vector3 = Vector3.ZERO
 var last_wall_side: int = WallSide.NONE
 #endregion

@@ -15,7 +15,7 @@ height = 1.75
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_ucweq")
-mouse_sensitivity = 18
+mouse_sensitivity = 12
 move_stats = ExtResource("2_8fjmc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -39,23 +39,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 [node name="RayRight" type="RayCast3D" parent="Sensors"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0, 0)
-target_position = Vector3(0.7, 0, -0.5)
+target_position = Vector3(0.8, 0, -0.1)
 hit_back_faces = false
 
 [node name="RayBackRight" type="RayCast3D" parent="Sensors"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0, 0)
-target_position = Vector3(0.1, 0, 0.8)
+target_position = Vector3(0.2, 0, 0.8)
 
 [node name="RayLeft" type="RayCast3D" parent="Sensors"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
-target_position = Vector3(-0.7, 0, -0.5)
+target_position = Vector3(-0.8, 0, -0.1)
 
 [node name="RayBackLeft" type="RayCast3D" parent="Sensors"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
-target_position = Vector3(-0.1, 0, 0.8)
+target_position = Vector3(-0.2, 0, 0.8)
 
 [node name="Machines" type="Node" parent="."]
 
