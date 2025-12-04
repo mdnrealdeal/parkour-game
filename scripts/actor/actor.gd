@@ -16,7 +16,7 @@ extends CharacterBody3D
 
 # Actor-specific data here.
 @export var move_stats: MovementStats
-@export var blackboard: ActorBlackboard
+var blackboard: ActorBlackboard
 
 #region Virtual controller variables
 var input_dir: Vector2 = Vector2.ZERO

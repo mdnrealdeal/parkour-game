@@ -5,8 +5,7 @@ var _duration: float = 0.0
 var _dash_direction: Vector3
 
 func _ready() -> void:
-	_cooldown_timer.one_shot = true
-	add_child(_cooldown_timer)
+	pass
 
 func enter(_previous_state: State = null) -> void:
 	if actor_ref.input_dir.length() > 0:
@@ -21,7 +20,7 @@ func enter(_previous_state: State = null) -> void:
 	_duration = actor_ref.move_stats.dash_duration
 
 func exit() -> void:
-	_cooldown_timer.start(actor_ref.move_stats.dash_cooldown)
+	actor_ref.blackboard.start_dash_cooldown(actor_ref.move_stats.dash_cooldown)
 
 func physics_update(_delta: float) -> void:
 	actor_ref.velocity = _dash_direction * actor_ref.move_stats.dash_speed
@@ -31,7 +30,4 @@ func physics_update(_delta: float) -> void:
 		transition_requested.emit(self, LocomotionAir)
 	
 func can_interrupt(_delta: float) -> bool:
-	return actor_ref.request_to_dash and can_activate()
-
-func can_activate() -> bool:
-	return _cooldown_timer.is_stopped()
+	return actor_ref.request_to_dash and actor_ref.blackboard.is_dash_ready()

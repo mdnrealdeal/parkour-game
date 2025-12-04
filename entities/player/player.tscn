@@ -45,7 +45,7 @@ hit_back_faces = false
 [node name="RayBackRight" type="RayCast3D" parent="Sensors"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0, 0)
-target_position = Vector3(0.2, 0, 0.8)
+target_position = Vector3(0.1, 0, 0.8)
 
 [node name="RayLeft" type="RayCast3D" parent="Sensors"]
 unique_name_in_owner = true
@@ -55,7 +55,7 @@ target_position = Vector3(-0.7, 0, -0.5)
 [node name="RayBackLeft" type="RayCast3D" parent="Sensors"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
-target_position = Vector3(-0.2, 0, 0.8)
+target_position = Vector3(-0.1, 0, 0.8)
 
 [node name="Machines" type="Node" parent="."]
 
@@ -73,7 +73,6 @@ metadata/_custom_type_script = "uid://oxlunud6hytu"
 
 [node name="LocomotionAir" type="Node" parent="Machines/LocoLayer"]
 script = ExtResource("3_fkugw")
-is_interruptable_state = null
 metadata/_custom_type_script = "uid://bs5rbrag8fxp3"
 
 [node name="LocomotionIdle" type="Node" parent="Machines/LocoLayer"]

@@ -5,6 +5,10 @@ extends Actor
 const SENS_MODIFIER = 0.0001
 
 func _ready() -> void:
+	blackboard = PlayerBlackboard.new()
+	blackboard.name = "PlayerBlackboard"
+	add_child(blackboard)
+	
 	super._ready()
 
 func _calculate_movement_parameters() -> void:

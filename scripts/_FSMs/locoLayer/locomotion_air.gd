@@ -3,30 +3,21 @@ extends State
 
 #region Internal variables
 const WALLRUN_THRESHOLD: float = 0.5
-const WALLRUN_COOLDOWN: float = 0.75
 #endregion
 
 func _ready() -> void:
-	coyote_timer.one_shot = true
-	wallrun_timer.one_shot = true
-	add_child(coyote_timer)
-	add_child(wallrun_timer)
+	pass
 
 func enter(previous_state: State = null) -> void:
-	
-	if previous_state is LocomotionWallrun:
-		wallrun_timer.start(WALLRUN_COOLDOWN)
-	else:
-		wallrun_timer.stop()
-	
-	if previous_state is LocomotionDash:
-		coyote_timer.stop()
-	else: 
-		air_jumps_left = actor_ref.move_stats.max_air_jumps
+	if previous_state is not LocomotionDash:
+		actor_ref.blackboard.air_jumps_left = actor_ref.move_stats.max_air_jumps
+		
 		if actor_ref.velocity.y <= 0.0:
-			coyote_timer.start(actor_ref.move_stats.coyote_time_duration)
+			actor_ref.blackboard.start_coyote_cooldown(actor_ref.move_stats.coyote_time_duration)
 		else:
-			coyote_timer.stop()
+			actor_ref.blackboard.coyote_cooldown.stop()
+	else: 
+		pass
 
 func physics_update(delta: float) -> void:
 	actor_ref.velocity.y -= actor_ref.gravity * delta
@@ -40,18 +31,18 @@ func physics_update(delta: float) -> void:
 
 	if actor_ref.input_dir.y < -WALLRUN_THRESHOLD or actor_ref.input_dir.y > WALLRUN_THRESHOLD:
 		if actor_ref.ray_right.is_colliding() or actor_ref.ray_left.is_colliding():
-			if wallrun_timer.is_stopped():
+			if not actor_ref.blackboard.is_wallrun_cooldown_active():
 				transition_requested.emit(self, LocomotionWallrun)
 				return
 	
-	if actor_ref.request_to_jump and not coyote_timer.is_stopped():
-		coyote_timer.stop()
+	if actor_ref.request_to_jump and actor_ref.blackboard.is_coyote_cooldown_active():
+		actor_ref.blackboard.coyote_cooldown.stop()
 		actor_ref.velocity.y = actor_ref.move_stats.jump_force
 		# TASK: Implement jump squat when ready
 		#transition_requested.emit(self, LocomotionJumpSquat)
-	elif actor_ref.request_to_jump and air_jumps_left > 0:
+	elif actor_ref.request_to_jump and actor_ref.blackboard.air_jumps_left > 0:
 		actor_ref.velocity.y = actor_ref.move_stats.jump_force
-		air_jumps_left -= 1
+		actor_ref.blackboard.air_jumps_left -= 1
 
 	var direction: Vector3 = (actor_ref.transform.basis * 
 	Vector3(actor_ref.input_dir.x, 0, actor_ref.input_dir.y)).normalized()
