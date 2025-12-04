@@ -108,7 +108,7 @@ func _apply_movement(delta: float) -> void:
 	actor_ref.velocity.x = lerp(actor_ref.velocity.x, target_velocity.x, actor_ref.move_stats.acceleration * delta)
 	actor_ref.velocity.z = lerp(actor_ref.velocity.z, target_velocity.z, actor_ref.move_stats.acceleration * delta)
 	
-	actor_ref.velocity -= _wall_normal * 0.25
+	actor_ref.velocity -= _wall_normal * 0.5
 
 func do_wall_jump() -> bool:
 	if actor_ref.request_to_jump:

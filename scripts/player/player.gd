@@ -3,6 +3,7 @@ extends Actor
 
 const SENS_HUMAN_MOD = 0.0001
 const CURVE_ASSIST_STRENGTH = 1.25
+const BASE_RESOLUTION_WIDTH = 1920
 
 @export_range(0, 100, 1) var mouse_sensitivity: int = 30
 
@@ -37,7 +38,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var sens_mult: float = _add_camera_magnetism(event)
 		
 		var final_sensitivity: float = (mouse_sensitivity * SENS_HUMAN_MOD) * sens_mult
-		#print(final_sensitivity)
+		#print("final sens is: ", final_sensitivity)
 		
 		rotate_y(-event.relative.x * final_sensitivity)
 		head.rotate_x(-event.relative.y * final_sensitivity)
@@ -73,7 +74,7 @@ func _add_camera_magnetism(event: InputEvent) -> float:
 	const MAX_MOUSE_DAMPENER_AWAY: float = 0.1
 	
 	if alignment > DEADZONE:
-		var raw_tension: float = clamp((alignment - 0.1) / 0.8, 0.0, 1.0)
+		var raw_tension: float = clamp((alignment - DEADZONE) / 0.8, 0.0, 1.0)
 		var curved_tension: float = raw_tension * raw_tension
 		
 		if moving_away:

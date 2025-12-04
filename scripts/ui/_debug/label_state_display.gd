@@ -73,6 +73,7 @@ func _update_text() -> void:
 	Stats:
 	Horizontal Speed: %.2f
 	Vertical Speed: %.2f
+	Sprint Heat Timer: %.2f
 	Wallrun: %s
 	Sprinting: %s
 	X Input Dir: %s
@@ -81,6 +82,7 @@ func _update_text() -> void:
 		loco_current, loco_prev,
 		action_current, action_prev,
 		h_vel, v_vel,
+		actor.blackboard.run_time,
 		str(actor.blackboard.is_wall_running),
 		str(actor.blackboard.is_sprinting),
 		inputdir_x, inputdir_y
