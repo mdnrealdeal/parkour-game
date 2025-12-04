@@ -14,3 +14,7 @@ func start_wallrun_cooldown(duration: float) -> void:
 func start_dash_cooldown(duration: float) -> void:
 	super.start_dash_cooldown(duration)
 	stat_changed.emit("dash_cooldown", duration)
+
+func _on_sprinting_changed(_active: bool) -> void:
+	if _active: sprint_started.emit()
+	else: sprint_ended.emit()

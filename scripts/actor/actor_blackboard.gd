@@ -21,7 +21,12 @@ var air_jumps_left: int = 0
 
 # state flags
 var is_wall_running: bool = false
-var is_sprinting: bool = false
+var is_sprinting: bool = false:
+	set(value):
+		if is_sprinting != value:
+			is_sprinting = !is_sprinting
+			_on_sprinting_changed(value)
+
 var is_crouching: bool = false
 var last_wall_normal: Vector3 = Vector3.ZERO
 var last_wall_side: int = WallSide.NONE
@@ -73,4 +78,7 @@ func reset_air_movements(max_jumps: int) -> void:
 
 func setup_run_time(time: float) -> void:
 	_max_run_time = time
+	
+func _on_sprinting_changed(_active: bool) -> void:
+	pass
 #endregion
