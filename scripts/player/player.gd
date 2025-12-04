@@ -2,7 +2,7 @@ class_name Player
 extends Actor
 
 const SENS_HUMAN_MOD = 0.0001
-const CURVE_ASSIST_STRENGTH = 0.5
+const CURVE_ASSIST_STRENGTH = 1.25
 
 @export_range(0, 100, 1) var mouse_sensitivity: int = 30
 
@@ -26,6 +26,8 @@ func _calculate_movement_parameters() -> void:
 func _physics_process(delta: float) -> void:
 		super._physics_process(delta)
 		
+		_apply_camera_tilt(delta)
+		
 		if blackboard.is_wall_running:
 			_apply_curve_assist(delta)
 
@@ -35,6 +37,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var sens_mult: float = _add_camera_magnetism(event)
 		
 		var final_sensitivity: float = (mouse_sensitivity * SENS_HUMAN_MOD) * sens_mult
+		#print(final_sensitivity)
 		
 		rotate_y(-event.relative.x * final_sensitivity)
 		head.rotate_x(-event.relative.y * final_sensitivity)
@@ -56,15 +59,27 @@ func _add_camera_magnetism(event: InputEvent) -> float:
 	elif blackboard.current_wall_side == ActorBlackboard.WallSide.LEFT and relative_x > 0:
 		moving_away = true
 	
-	#print("Side: %s | Align: %.2f | MovingAway: %s" % [blackboard.current_wall_side, alignment, moving_away])
-	if alignment > 0.01:
-		var raw_tension: float = clamp((alignment + 0.2) / 0.8, 0.0, 1.0)
+	print("Side: %s | Align: %.2f | MovingAway: %s" % [blackboard.current_wall_side, alignment, moving_away])
+	
+	# INFO: this is the mouse dampening code. documentation on what does what here.
+	# DEADZONE: area which determines free mouselook w/o slow | lower = less deadzone
+	# 
+	# MAX_MOUSE_DAMPENER_TO/AWAY: higher values make the mouse slower at peak deadzone. 
+	# 	Respective values for dampening away from wall and to wall.
+	#
+	# Curve - raw_tension AND curved_tension: choose raw for linear, curved for expo.
+	const DEADZONE: float = 0.005
+	const MAX_MOUSE_DAMPENER_TO: float = 0.025
+	const MAX_MOUSE_DAMPENER_AWAY: float = 0.1
+	
+	if alignment > DEADZONE:
+		var raw_tension: float = clamp((alignment - 0.1) / 0.8, 0.0, 1.0)
 		var curved_tension: float = raw_tension * raw_tension
 		
 		if moving_away:
-			return lerp(1.0, 0.05, curved_tension)
+			return lerp(1.0, MAX_MOUSE_DAMPENER_TO, curved_tension)
 		else:
-			return lerp(1.0, 0.1, raw_tension)
+			return lerp(1.0, MAX_MOUSE_DAMPENER_AWAY, raw_tension)
 	return 1.0
 
 func _apply_curve_assist(delta: float) -> void:
@@ -82,3 +97,12 @@ func _apply_curve_assist(delta: float) -> void:
 	
 	if abs(angle_diff) > 0.001:
 		rotate_y(-angle_diff * CURVE_ASSIST_STRENGTH * delta)
+
+func _apply_camera_tilt(delta: float) -> void:
+	var target_roll: float = 0.0
+	
+	if blackboard.is_wall_running:
+		const TILT_IN_RAD: float = 0.2181662
+		target_roll = blackboard.current_wall_side * TILT_IN_RAD
+		
+	head.rotation.z = lerp(head.rotation.z, target_roll, 7.5 * delta)

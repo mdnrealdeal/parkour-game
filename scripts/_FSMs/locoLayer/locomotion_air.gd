@@ -6,6 +6,7 @@ const WALLRUN_THRESHOLD: float = 0.5
 #endregion
 
 func enter(previous_state: State = null) -> void:
+	# TODO: remove this coupling, replace with state flags in blackboard.
 	if previous_state is not LocomotionDash:
 		actor_ref.blackboard.reset_air_movements(actor_ref.move_stats.max_air_jumps)
 		
