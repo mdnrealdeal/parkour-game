@@ -14,18 +14,9 @@ extends CharacterBody3D
 @onready var ray_back_right: RayCast3D = %RayBackRight
 #endregion
 
-# Movement stats edited here.
+# Actor-specific data here.
 @export var move_stats: MovementStats
-
-#region State flags
-var run_time: float = 0.0:
-	set(new_time):
-		run_time = clampf(new_time, 0.0, move_stats.time_before_sprinting)
-
-var is_wall_running: bool = false
-var is_sprinting: bool = false
-var is_crouching: bool = false
-#endregion
+@export var blackboard: ActorBlackboard
 
 #region Virtual controller variables
 var input_dir: Vector2 = Vector2.ZERO
@@ -38,6 +29,13 @@ var request_to_crouch: bool = false
 @abstract func _calculate_movement_parameters() -> void
 
 func _ready() -> void:
+	if not blackboard:
+		blackboard = ActorBlackboard.new()
+		blackboard.name = "GenericActorBlackboard"
+		add_child(blackboard)
+	
+	blackboard.setup_run_time(move_stats.time_before_sprinting)
+	
 	fsm_loco_layer.init(self)
 	fsm_action_layer.init(self)
 

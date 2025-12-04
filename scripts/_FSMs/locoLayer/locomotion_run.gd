@@ -15,9 +15,9 @@ func exit() -> void:
 func physics_update(delta: float) -> void:
 	
 	if actor_ref.input_dir.y < -SPRINT_STRAFE_THRESHOLD:
-		actor_ref.run_time += delta
+		actor_ref.blackboard.run_time += delta
 	else:
-		actor_ref.run_time -= delta * STRAFE_RUN_DECAY
+		actor_ref.blackboard.run_time -= delta * STRAFE_RUN_DECAY
 	
 	if not actor_ref.is_on_floor():
 		transition_requested.emit(self, LocomotionAir)
@@ -39,12 +39,12 @@ func physics_update(delta: float) -> void:
 	var _current_speed: float = actor_ref.move_stats.speed
 	var _current_acceleration: float = actor_ref.move_stats.acceleration
 	
-	if actor_ref.run_time >= actor_ref.move_stats.time_before_sprinting:
-		actor_ref.is_sprinting = true
+	if actor_ref.blackboard.run_time >= actor_ref.move_stats.time_before_sprinting:
+		actor_ref.blackboard.is_sprinting = true
 		_current_speed = actor_ref.move_stats.sprint_speed
 		_current_acceleration = actor_ref.move_stats.sprint_acceleration
 	else:
-		actor_ref.is_sprinting = false
+		actor_ref.blackboard.is_sprinting = false
 	
 	var target_velocity: Vector3 = direction * _current_speed
 	var current_velocity: Vector3 = Vector3(actor_ref.velocity.x, 0, actor_ref.velocity.z)

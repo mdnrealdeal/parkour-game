@@ -73,6 +73,7 @@ metadata/_custom_type_script = "uid://oxlunud6hytu"
 
 [node name="LocomotionAir" type="Node" parent="Machines/LocoLayer"]
 script = ExtResource("3_fkugw")
+is_interruptable_state = null
 metadata/_custom_type_script = "uid://bs5rbrag8fxp3"
 
 [node name="LocomotionIdle" type="Node" parent="Machines/LocoLayer"]

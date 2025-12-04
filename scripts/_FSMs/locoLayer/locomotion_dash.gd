@@ -4,8 +4,6 @@ extends State
 var _duration: float = 0.0
 var _dash_direction: Vector3
 
-@onready var _cooldown_timer: Timer = Timer.new() 
-
 func _ready() -> void:
 	_cooldown_timer.one_shot = true
 	add_child(_cooldown_timer)

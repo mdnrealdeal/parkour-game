@@ -9,7 +9,7 @@ var _linger_timer: float = 0.0
 #endregion
 
 func enter(_previous_state: State = null) -> void:
-	actor_ref.is_wall_running = true
+	actor_ref.blackboard.is_wall_running = true
 	_linger_timer = 0.0
 	
 	if actor_ref.velocity.y != 0.0:
@@ -23,7 +23,7 @@ func enter(_previous_state: State = null) -> void:
 		_wall_normal = actor_ref.ray_left.get_collision_normal()
 
 func exit() -> void:
-	actor_ref.is_wall_running = false
+	actor_ref.blackboard.is_wall_running = false
 	
 func physics_update(delta: float) -> void:
 	if do_wall_jump(): return

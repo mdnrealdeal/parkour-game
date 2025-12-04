@@ -4,11 +4,6 @@ extends State
 #region Internal variables
 const WALLRUN_THRESHOLD: float = 0.5
 const WALLRUN_COOLDOWN: float = 0.75
-
-var air_jumps_left: int = 0
-
-@onready var coyote_timer: Timer = Timer.new()
-@onready var wallrun_timer: Timer = Timer.new()
 #endregion
 
 func _ready() -> void:
