@@ -5,6 +5,9 @@ extends State
 const IDLE_RUN_DECAY: float = 3.0
 #endregion
 
+func _ready() -> void:
+	is_grounded_state = true
+
 func enter(_previous_state: State = null) -> void:
 	actor_ref.blackboard.is_sprinting = false
 

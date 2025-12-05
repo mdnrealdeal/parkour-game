@@ -76,6 +76,7 @@ func _update_text() -> void:
 	Sprint Heat Timer: %.2f
 	Wallrun: %s
 	Sprinting: %s
+	Crouching: %s
 	X Input Dir: %s
 	Y Input Dir: %s
 	""" % [
@@ -85,5 +86,6 @@ func _update_text() -> void:
 		actor.blackboard.run_time,
 		str(actor.blackboard.is_wall_running),
 		str(actor.blackboard.is_sprinting),
+		str(actor.blackboard.is_crouching),
 		inputdir_x, inputdir_y
 	]

@@ -47,6 +47,10 @@ func _check_transitions(delta: float) -> bool:
 		transition_requested.emit(self, LocomotionRun)
 		return true
 
+	if actor_ref.request_to_crouch:
+		transition_requested.emit(self, LocomotionAir)
+		return true
+
 	var is_on_wall: bool = _update_wall_status()
 
 	if is_on_wall:

@@ -11,6 +11,7 @@ signal transition_requested(from_state: State, to_state_class: Script)
 #region Variables
 var actor_ref: Actor
 @export var is_interruptable_state: bool = false
+var is_grounded_state: bool = false
 #endregion
 
 #region Methods

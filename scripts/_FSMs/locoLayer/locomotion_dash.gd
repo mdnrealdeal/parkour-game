@@ -17,7 +17,7 @@ func enter(_previous_state: State = null) -> void:
 		cam_forward.y = 0
 		_dash_direction = cam_forward.normalized()
 	
-	actor_ref.blackboard.run_time += 2.0
+	actor_ref.blackboard.run_time += 1.5
 	
 	actor_ref.velocity = _dash_direction * actor_ref.move_stats.dash_speed
 	_duration = actor_ref.move_stats.dash_duration

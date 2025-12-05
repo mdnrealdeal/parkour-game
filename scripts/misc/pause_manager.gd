@@ -7,7 +7,7 @@ var fullscreen_toggle: bool = false
 func _ready() -> void:
 	if not OS.has_feature("editor"):
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
-	
+	get_window().title = "playtesting: parkour-game"
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	process_mode = Node.PROCESS_MODE_ALWAYS
 

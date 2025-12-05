@@ -46,6 +46,7 @@ script = ExtResource("1_kljt5")
 [node name="debug_text" type="Label" parent="DebugUI" node_paths=PackedStringArray("actor")]
 offset_right = 40.0
 offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
 script = ExtResource("3_ad8uc")
 actor = NodePath("../../Player")
 
@@ -94,9 +95,9 @@ size = Vector3(4.8, 0.1, 4)
 material = SubResource("StandardMaterial3D_kljt5")
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.5, -8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.25, -8)
 use_collision = true
 radius = 3.0
-height = 5.0
+height = 6.5
 sides = 40
 material = SubResource("StandardMaterial3D_ad8uc")

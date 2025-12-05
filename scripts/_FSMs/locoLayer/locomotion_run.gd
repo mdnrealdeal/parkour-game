@@ -6,6 +6,9 @@ const STRAFE_RUN_DECAY: float = 2.0
 const SPRINT_STRAFE_THRESHOLD: float = 0.5
 #endregion
 
+func _ready() -> void:
+	is_grounded_state = true
+
 func physics_update(delta: float) -> void:
 	_update_run_time(delta)
 	

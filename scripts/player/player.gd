@@ -2,10 +2,11 @@ class_name Player
 extends Actor
 
 const SENS_HUMAN_MOD = 0.0001
-const CURVE_ASSIST_STRENGTH = 1.25
-const BASE_RESOLUTION_WIDTH = 1920
+const CURVE_ASSIST_STRENGTH = 1.5
 
 @export_range(0, 100, 1) var mouse_sensitivity: int = 30
+
+@onready var camera: Camera3D = $Head/Camera3D
 
 func _ready() -> void:
 	blackboard = PlayerBlackboard.new()
@@ -28,7 +29,6 @@ func _physics_process(delta: float) -> void:
 		super._physics_process(delta)
 		
 		_apply_camera_tilt(delta)
-		
 		if blackboard.is_wall_running:
 			_apply_curve_assist(delta)
 
@@ -42,7 +42,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 		rotate_y(-event.relative.x * final_sensitivity)
 		head.rotate_x(-event.relative.y * final_sensitivity)
-		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-90), deg_to_rad(90))
+		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-60), deg_to_rad(75))
 
 func _add_camera_magnetism(event: InputEvent) -> float:
 	if not blackboard.is_wall_running: return 1.0
@@ -60,7 +60,7 @@ func _add_camera_magnetism(event: InputEvent) -> float:
 	elif blackboard.current_wall_side == ActorBlackboard.WallSide.LEFT and relative_x > 0:
 		moving_away = true
 	
-	print("Side: %s | Align: %.2f | MovingAway: %s" % [blackboard.current_wall_side, alignment, moving_away])
+	#print("Side: %s | Align: %.2f | MovingAway: %s" % [blackboard.current_wall_side, alignment, moving_away])
 	
 	# INFO: this is the mouse dampening code. documentation on what does what here.
 	# DEADZONE: area which determines free mouselook w/o slow | lower = less deadzone
@@ -106,4 +106,5 @@ func _apply_camera_tilt(delta: float) -> void:
 		const TILT_IN_RAD: float = 0.2181662
 		target_roll = blackboard.current_wall_side * TILT_IN_RAD
 		
-	head.rotation.z = lerp(head.rotation.z, target_roll, 7.5 * delta)
+	camera.rotation.z = lerp(camera.rotation.z, target_roll, 7.5 * delta)
+	
