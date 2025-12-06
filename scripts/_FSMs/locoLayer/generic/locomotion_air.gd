@@ -23,19 +23,44 @@ func physics_update(delta: float) -> void:
 
 #region Helper Functions
 func _check_transitions() -> bool:
-	if actor_ref.is_on_floor():
-		if actor_ref.input_dir.length() > 0: 
-			transition_requested.emit(self, LocomotionRun)
-		else:
-			transition_requested.emit(self, LocomotionIdle)
-		return true
-
-	if actor_ref.input_dir.length() > WALLRUN_THRESHOLD:
-		if actor_ref.ray_right.is_colliding() or actor_ref.ray_left.is_colliding():
-			if not actor_ref.blackboard.is_wallrun_cooldown_active():
-				transition_requested.emit(self, LocomotionWallrun)
-				return true
+	if _try_mantle_transition(): return true
+	if _try_grounded_transition(): return true
+	if _try_wallrun_transition(): return true
+	
 	return false
+
+func _try_mantle_transition() -> bool:
+	if not actor_ref is Player: return false
+	
+	var player_ref: Player = actor_ref as Player
+	
+	if player_ref.ray_up.is_colliding(): return false
+	
+	if not player_ref.ray_forward.is_colliding(): return false
+	if not player_ref.ray_ledge.is_colliding(): return false
+	
+	transition_requested.emit(self, LocomotionMantle)
+	return true
+
+func _try_grounded_transition() -> bool:
+	if not actor_ref.is_on_floor(): return false
+	
+	if actor_ref.input_dir.length() > 0:
+		transition_requested.emit(self, LocomotionRun)
+	else:
+		transition_requested.emit(self, LocomotionIdle)
+	return true
+
+func _try_wallrun_transition() -> bool:
+	if actor_ref.input_dir.length() < WALLRUN_THRESHOLD: return false
+	
+	if not (actor_ref.ray_right.is_colliding() or actor_ref.ray_left.is_colliding()):
+		return false
+	
+	if actor_ref.blackboard.is_wallrun_cooldown_active(): return false
+	
+	transition_requested.emit(self, LocomotionWallrun)
+	return true
 
 func _handle_jump() -> bool:
 	if not actor_ref.request_to_jump:

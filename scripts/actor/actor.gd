@@ -8,6 +8,7 @@ extends CharacterBody3D
 @onready var head: Node3D = %Head
 @onready var collider: CollisionShape3D = %CollisionShape3D
 @onready var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
+@onready var ray_up: RayCast3D = %RayUp
 @onready var ray_left: RayCast3D = %RayLeft
 @onready var ray_back_left: RayCast3D = %RayBackLeft
 @onready var ray_right: RayCast3D = %RayRight

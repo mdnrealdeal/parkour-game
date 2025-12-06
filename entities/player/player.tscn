@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bjj0ytq01q18h"]
+[gd_scene load_steps=12 format=3 uid="uid://bjj0ytq01q18h"]
 
 [ext_resource type="Script" uid="uid://b87brrqwnsyyf" path="res://scripts/player/player.gd" id="1_ucweq"]
 [ext_resource type="Resource" uid="uid://b8xoq6k34sbi6" path="res://resources/player_movementstats.tres" id="2_8fjmc"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://d2nfgtqleoe2j" path="res://scripts/_FSMs/locoLayer/player_exclusive/locomotion_jumpsquat.gd" id="7_26q78"]
 [ext_resource type="Script" uid="uid://oxlunud6hytu" path="res://scripts/_FSMs/locoLayer/generic/locomotion_dash.gd" id="7_qiwj3"]
 [ext_resource type="Script" uid="uid://x6uaw1er2wwo" path="res://scripts/_FSMs/locoLayer/generic/locomotion_wallrun.gd" id="9_bectd"]
+[ext_resource type="Script" uid="uid://b3ugfqadx2lvv" path="res://scripts/_FSMs/locoLayer/player_exclusive/locomotion_mantle.gd" id="10_wvtmh"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_08t41"]
 radius = 0.35
@@ -62,9 +63,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
 target_position = Vector3(-0.2, 0, 0.8)
 collision_mask = 2
 
+[node name="RayUp" type="RayCast3D" parent="Sensors"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+target_position = Vector3(0, 1.8, 0)
+collision_mask = 3
+
 [node name="RayLedge" type="RayCast3D" parent="Sensors"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -0.75)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -0.5)
 target_position = Vector3(0, -1.2, 0)
 
 [node name="RayForward" type="RayCast3D" parent="Sensors"]
@@ -108,6 +115,10 @@ metadata/_custom_type_script = "uid://tmx0wensabcx"
 [node name="LocomotionJumpSquat" type="Node" parent="Machines/LocoLayer/Non-Interruptable"]
 script = ExtResource("7_26q78")
 metadata/_custom_type_script = "uid://d2nfgtqleoe2j"
+
+[node name="LocomotionMantle" type="Node" parent="Machines/LocoLayer/Non-Interruptable"]
+script = ExtResource("10_wvtmh")
+metadata/_custom_type_script = "uid://b3ugfqadx2lvv"
 
 [node name="ActionLayer" type="Node" parent="Machines"]
 unique_name_in_owner = true
