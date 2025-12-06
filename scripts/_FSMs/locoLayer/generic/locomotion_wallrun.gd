@@ -2,6 +2,7 @@ class_name LocomotionWallrun
 extends State
 
 #region Internal variables
+const WALL_VELOCITY_MODIFER: float = 1.75
 enum WallSide {LEFT = -1, NONE = 0, RIGHT = 1}
 var _wall_normal: Vector3
 var _wall_side: int = WallSide.NONE
@@ -13,7 +14,7 @@ func enter(_previous_state: State = null) -> void:
 	_linger_timer = 0.0
 	
 	if actor_ref.velocity.y != 0.0:
-		actor_ref.velocity.y = actor_ref.velocity.y / 2
+		actor_ref.velocity.y = actor_ref.velocity.y / WALL_VELOCITY_MODIFER
 	
 	if actor_ref.ray_right.is_colliding():
 		_wall_side = WallSide.RIGHT
@@ -48,6 +49,7 @@ func _check_transitions(delta: float) -> bool:
 		return true
 
 	if actor_ref.request_to_crouch:
+		actor_ref.velocity += _wall_normal * 2.0
 		transition_requested.emit(self, LocomotionAir)
 		return true
 

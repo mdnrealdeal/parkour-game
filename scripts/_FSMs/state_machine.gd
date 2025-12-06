@@ -6,6 +6,7 @@ extends Node
 #endregion
 
 #region Internal variables
+var fsm_name: String
 var current_state: State
 var states: Dictionary[Script, State] = {}
 var interrupt_states: Array[State] = []
@@ -14,6 +15,7 @@ var interrupt_states: Array[State] = []
 signal state_changed(new_state: State)
 
 func init(actor: Actor) -> void:
+	fsm_name = self.name
 	states.clear()
 	interrupt_states.clear()
 	
@@ -41,7 +43,7 @@ func _recursively_find_states(node: Node, actor: Actor) -> void:
 
 func on_transition_requested(from_state: State, to_state_class: Script) -> void:
 	if from_state != current_state:
-		push_warning("FSM Warning: State (" + from_state.name + ") 
+		push_warning(fsm_name, " Warning: State (" + from_state.name + ") 
 			requested transition without being current valid state 
 			(" + current_state.name + "). Transition denied.")
 		return
@@ -49,8 +51,9 @@ func on_transition_requested(from_state: State, to_state_class: Script) -> void:
 	var new_state: State = states.get(to_state_class)
 	
 	if not new_state:
-		push_warning("FSM Warning: State transition target '" + str(to_state_class) + "' not found in dictionary.")
-		print(states)
+		push_error("\n", fsm_name, "FSM Warning: State transition target '" + str(to_state_class.get_global_name()) + "' not found in dictionary.
+		Pushing initial state of '", initial_state.name, "'.")
+		change_state(initial_state)
 		return
 	
 	change_state(new_state)

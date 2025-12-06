@@ -21,6 +21,8 @@ config/icon="res://icon.svg"
 
 gdscript/warnings/unassigned_variable=2
 gdscript/warnings/untyped_declaration=2
+shapes/collision/shape_color=Color(1, 1, 1, 0.41960785)
+shapes/collision/contact_color=Color(0.36057484, 0.8968521, 0.5744279, 0.8)
 
 [display]
 
@@ -30,6 +32,12 @@ window/size/resizable=false
 window/size/borderless=true
 window/size/always_on_top=true
 window/vsync/vsync_mode=2
+
+[editor_overrides]
+
+text_editor/theme/highlighting/comment_markers/critical_color=Color(0.77, 0.35, 0.35, 1)
+text_editor/theme/highlighting/comment_markers/warning_color=Color(0.91057205, 0.8232459, 0, 1)
+text_editor/theme/highlighting/comment_markers/notice_color=Color(0.15934974, 0.8091763, 0.4508947, 1)
 
 [input]
 
@@ -81,6 +89,11 @@ toggle_pause={
 capture_focus={
 "deadzone": 0.2,
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(142, 22),"global_position":Vector2(151, 70),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+reload_scene={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":82,"key_label":0,"unicode":114,"location":0,"echo":false,"script":null)
 ]
 }
 

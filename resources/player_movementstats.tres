@@ -18,5 +18,5 @@ wallrun_jump_force_forward = 6.5
 wallrun_jump_force_up = 4.5
 wallrun_gravity_mult = 0.4
 wallrun_linger_duration = 0.01
-wallrun_cooldown = 1.0
+wallrun_cooldown = 0.75
 metadata/_custom_type_script = "uid://c83i83xjuj6bl"

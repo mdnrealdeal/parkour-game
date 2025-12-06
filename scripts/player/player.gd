@@ -1,12 +1,17 @@
 class_name Player
 extends Actor
 
+# constants
 const SENS_HUMAN_MOD = 0.0001
 const CURVE_ASSIST_STRENGTH = 1.5
 
+# exports
 @export_range(0, 100, 1) var mouse_sensitivity: int = 30
 
+# references
 @onready var camera: Camera3D = $Head/Camera3D
+@onready var ray_ledge: RayCast3D = %RayLedge
+@onready var ray_forward: RayCast3D = %RayForward
 
 func _ready() -> void:
 	blackboard = PlayerBlackboard.new()
@@ -14,6 +19,13 @@ func _ready() -> void:
 	add_child(blackboard)
 	
 	super._ready()
+
+
+func _physics_process(delta: float) -> void:
+		super._physics_process(delta)
+		
+		_apply_camera_tilt(delta)
+		_apply_curve_assist(delta)
 
 func _calculate_movement_parameters() -> void:
 	input_dir = Input.get_vector("move_left", "move_right", 
@@ -24,14 +36,6 @@ func _calculate_movement_parameters() -> void:
 	if Input.is_action_just_pressed("dash"):
 		request_to_dash = true
 	request_to_crouch = Input.is_action_pressed("crouch")
-
-func _physics_process(delta: float) -> void:
-		super._physics_process(delta)
-		
-		_apply_camera_tilt(delta)
-		if blackboard.is_wall_running:
-			_apply_curve_assist(delta)
-
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -74,7 +78,7 @@ func _add_camera_magnetism(event: InputEvent) -> float:
 	const MAX_MOUSE_DAMPENER_AWAY: float = 0.1
 	
 	if alignment > DEADZONE:
-		var raw_tension: float = clamp((alignment - DEADZONE) / 0.8, 0.0, 1.0)
+		var raw_tension: float = clamp((alignment - DEADZONE) / (1.0 - DEADZONE), 0.0, 1.0)
 		var curved_tension: float = raw_tension * raw_tension
 		
 		if moving_away:
@@ -84,6 +88,7 @@ func _add_camera_magnetism(event: InputEvent) -> float:
 	return 1.0
 
 func _apply_curve_assist(delta: float) -> void:
+	if not blackboard.is_wall_running: return 
 	var wall_normal: Vector3 = blackboard.current_wall_normal
 	
 	if wall_normal.is_zero_approx(): return

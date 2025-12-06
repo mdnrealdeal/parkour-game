@@ -17,7 +17,6 @@ func pause_game() -> void:
 	
 func unpause_game() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED) 
 	get_tree().paused = false
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -30,3 +29,5 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	
 	if event.is_action_pressed("game_quit"):
 		get_tree().quit()
+	if event.is_action_pressed("reload_scene"):
+		get_tree().reload_current_scene()

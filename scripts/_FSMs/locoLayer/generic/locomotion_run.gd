@@ -52,6 +52,7 @@ func _apply_movement(delta: float) -> void:
 		actor_ref.blackboard.is_sprinting = true
 		current_speed = actor_ref.move_stats.sprint_speed
 		current_accel = actor_ref.move_stats.sprint_acceleration
+		
 	else:
 		actor_ref.blackboard.is_sprinting = false
 	
